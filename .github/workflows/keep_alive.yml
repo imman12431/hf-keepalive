@@ -12,6 +12,12 @@ jobs:
     timeout-minutes: 5
 
     steps:
+      - name: Check space stage before ping
+        run: |
+          STAGE=$(curl -s "https://huggingface.co/api/spaces/imman12431/tennis-backhand-detector" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['runtime']['stage'])")
+          echo "Space stage before ping: $STAGE"
+
       - name: Wake up HF Space
         run: |
           curl \
@@ -22,7 +28,5 @@ jobs:
             --fail \
             --show-error \
             --silent \
+            --write-out "\nResponse time: %{time_total}s\n" \
             "${{ secrets.HF_SPACE_URL }}/health"
-
-      - name: Confirm response
-        run: echo "HF Space /health ping succeeded."
