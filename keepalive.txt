@@ -1,0 +1,3 @@
+HF keepalive marker
+Last updated: 2026-08-15
+Purpose: keep the repository active so GitHub Actions remains scheduled and can ping the Hugging Face Space.
